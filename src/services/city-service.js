@@ -1,19 +1,21 @@
 const { StatusCodes } = require('http-status-codes')
-const {AirplaneRepository}= require('../repositories')
+const {CityRepository}= require('../repositories')
 const AppError = require('../utils/errors/app-error')
-const airplaneRepository=new AirplaneRepository
+const cityRepository=new CityRepository()
 
-async function createAirplane(data) {
+async function createCity(data) {
     try{
-      const airplane= await airplaneRepository.create(data) 
-      return airplane
+      const city= await cityRepository.create(data) 
+      return city
     }catch(error){
-      if(error.name=='TypeError'){
-        throw new AppError('Cannot create a new Airpane object',
-          StatusCodes.INTERNAL_SERVER_ERROR
-        )
+      if(error.name=='SequelizeValidationError' || error.name == 'SequelizeUniqueConstraintError'){
+        let explaination=[]
+        error.errors.forEach((err) => {
+            explaination.push(err.message)
+        });
+        throw new AppError(explaination, StatusCodes.BAD_REQUEST )
       }
-      throw error
+      throw new AppError('Cannot create a new city object', StatusCodes.INTERNAL_SERVER_ERROR)
     }
 }
 
@@ -64,7 +66,7 @@ async function updateAirplane(id,data){
 }
 
 module.exports = {
-    createAirplane,
+    createCity,
     getAirplanes,
     getAirplane,
     destroyAirplane,

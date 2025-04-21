@@ -1,3 +1,7 @@
+const { StatusCodes } = require("http-status-codes");
+const AppError = require("../utils/errors/app-error");
+
+
 class CrudRepository{
     constructor(model){
         this.model=model;
@@ -15,11 +19,13 @@ class CrudRepository{
 
     async destroy(data){
         try{
-            const response= await this.model.destory({
+            const response= await this.model.destroy({
                 where:{
                     id:data
                 }
             })
+            if(!response){
+                throw new AppError('Nothing to delete',StatusCodes.NOT_FOUND)            }
             return response
         }catch(error){
             console.log("Something went wrong in the CRUD repo : destroy")
@@ -30,6 +36,9 @@ class CrudRepository{
     async get(data){
         try{
             const response= await this.model.findByPk(data)
+            if(!response){
+                throw new AppError('Not able to find the resource',StatusCodes.NOT_FOUND)
+            }
             return response
         }catch(error){
             console.log("Something went wrong in the CRUD repo : get")
@@ -55,7 +64,7 @@ class CrudRepository{
                 }
             })
             return response
-        }catch(error){
+        }catch(error){ 
             console.log("Something went wrong in the CRUD repo : update")
             throw error
         }

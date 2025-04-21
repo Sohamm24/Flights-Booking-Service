@@ -1,20 +1,20 @@
 const { StatusCodes } = require('http-status-codes')
-const {AirplaneService} = require('../services')
+const {CityService} = require('../services')
 const { ErrorResponse , SuccessResponse }= require('../utils/common')
 
-async function createAirplane(req,res){
+async function createCity(req,res){
     try{
-        const airplane = await AirplaneService.createAirplane({
-            modelNumber:req.body.modelNumber,
-            capacity : req.body.capacity
+        const city = await CityService.createCity({
+            name:req.body.name
         })
-        SuccessResponse.data=airplane
+        SuccessResponse.data=city
         return res 
            .status(StatusCodes.CREATED)
            .json(SuccessResponse)
     }catch(error){
+       ErrorResponse.error=error
        return res
-               .status(error.StatusCodes)
+               .status(error.statusCode)
                .json(ErrorResponse)
     }
 }
@@ -79,7 +79,7 @@ async function updateAirplane(req,res){
 }
 
 module.exports = {
-    createAirplane,
+    createCity,
     getAirplanes,
     getAirplane,
     destoryAirplane,
