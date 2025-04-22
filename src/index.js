@@ -10,12 +10,5 @@ app.use(express.urlencoded({extended:true}))
 app.use('/api',apiRoutes)
 
 app.listen(PORT,async ()=>{
-    console.log(`Sever Running on port :${PORT}`)
-    const { City, Airport } =require('./models')
-     await City.destroy({where:{
-        id:1
-    }
-})
-  
-   
+    console.log(`Sever Running on port :${PORT}`) 
 })
