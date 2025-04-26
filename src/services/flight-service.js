@@ -58,15 +58,15 @@ async function getAllFlights(query){
   }
 }
 
-async function getAirport(id){
+async function getFlight(){
   try{
-   const airport=await airportRepository.get(id)
-   return airport
+   const flight=await flightRepository.get(id)
+   return flight
   }catch(error){
     if(error.statusCode==StatusCodes.NOT_FOUND){
-      throw new AppError('Airport you requested is not present',error.statusCode)
+      throw new AppError('Flight you requested is not present',error.statusCode)
     }
-    throw new AppError('Cannot fetch data of all the airplane',StatusCodes.INTERNAL_SERVER_ERROR)
+    throw new AppError('Cannot fetch data of all the Flight',StatusCodes.INTERNAL_SERVER_ERROR)
   }
 }
 
@@ -82,9 +82,9 @@ async function destroyAirport(id){
   }
 }
 
-async function updateAirplane(id,data){
+async function updateSeats(data){
   try{
-   const response=await airplaneRepository.update(id,data)
+   const response=await flightRepository.updateRemainingSeats(data.flightId,data.seats,data.dec)
    console.log(response)
    return response
   }catch(error){
@@ -98,7 +98,7 @@ async function updateAirplane(id,data){
 module.exports = {
     createFlight,
     getAllFlights,
-    getAirport,
+    getFlight,
     destroyAirport,
-    updateAirplane
+    updateSeats
 }

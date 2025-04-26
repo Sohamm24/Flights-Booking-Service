@@ -14,15 +14,15 @@ router
     
 router
     .get('/:id',
-       AirplaneController.getAirplane)      
+       FlightController.getFlight)      
        
 router
     .delete('/:id',
        AirplaneController.destoryAirplane)       
        
 router
-    .patch('/:id',
-        AirplaneController.updateAirplane
+    .patch('/:id/seats',
+        FlightController.updateSeats
     )       
 
 module.exports= router

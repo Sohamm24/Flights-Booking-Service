@@ -42,10 +42,10 @@ async function getAllFlights(req, res) {
     }
 }
 
-async function getAirplane(req,res){
+async function getFlight(req,res){
     try{
-        const airplane = await AirplaneService.getAirplane(req.params.id)
-        SuccessResponse.data=airplane
+        const Flight = await FlightService.getFlight(req.params.id)
+        SuccessResponse.data=Flight
         return res 
            .status(StatusCodes.OK)
            .json(SuccessResponse)
@@ -72,9 +72,13 @@ async function destoryAirplane(req,res){
     }
 }
 
-async function updateAirplane(req,res){
+async function updateSeats(req,res){
     try{
-        const response = await AirplaneService.updateAirplane(req.params.id,req.params.data)
+        const response = await FlightService.updateSeats({
+            flightId : req.params.id,
+            seats : req.body.seats,
+            dec : req.body.dec
+        })
         SuccessResponse.data=response
         return res 
            .status(StatusCodes.OK)
@@ -90,7 +94,7 @@ async function updateAirplane(req,res){
 module.exports = {
     createFlight,
     getAllFlights,
-    getAirplane,
+    getFlight,
     destoryAirplane,
-    updateAirplane
+    updateSeats
 }
