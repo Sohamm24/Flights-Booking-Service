@@ -10,20 +10,8 @@ router
         BookingController.createBooking)
 
 router
-    .get('/',
-        AirportController.getAirports)
-    
-router
-    .get('/:id',
-       AirplaneController.getAirplane)      
-       
-router
-    .delete('/:id',
-       AirplaneController.destoryAirplane)       
-       
-router
-    .patch('/:id',
-        AirplaneController.updateAirplane
-    )       
+    .post('/payment',
+        BookingController.makePayment
+    )   
 
 module.exports= router
